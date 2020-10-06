@@ -1,7 +1,6 @@
 .page-main__wrapper {
     display: block;
     margin: 0 auto;
-    overflow: hidden;
     width: 100%;
 }
 
@@ -12,12 +11,13 @@
     }
     @media (min-width: 64em) {
         height: calc(100vh - 126px);
+        overflow: hidden;
     }
 }
 
 .page-main__video-wrapper {
-    overflow: hidden;
     position: relative;
+    font-size: 0;
 }
 
 .page-main__video {
@@ -74,5 +74,32 @@
     }
     @media (max-width: $tablet) {
         display: block;
+    }
+}
+
+.page-main__links {
+    @include list-reset;
+    position: absolute;
+    bottom: 50px;
+    max-width: 380px;
+    left: 80px;
+    font-size: 16px;
+    @media (max-width: $tablet) {
+        position: static;
+        max-width: 100%;
+    }
+}
+
+.page-main__links-link {
+    font-weight: bold;
+    background-color: $c-blue;
+    color: $c-light;
+    padding: 27px 20px;
+    display: block;
+    width: 100%;
+    text-decoration: underline;
+    &--second {
+        background-color: #fff;
+        color: $c-blue;
     }
 }
