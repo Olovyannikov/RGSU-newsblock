@@ -4,15 +4,16 @@
         @include list-reset;
         display: flex;
         flex-direction: column;
-        &:hover {
-            a:not(:focus) {
-                opacity: 0.5;
-            }
+        position: relative;
+        &:hover > li {
+            opacity: 0.5;
         }
     }
     ul li {
-        position: relative;
         margin-bottom: 20px;
+        &:hover {
+            opacity: 1;
+        }
     }
 
     a {
@@ -22,6 +23,9 @@
         line-height: 40px;
         color: $c-light;
         font-weight: bold;
+        &:hover {
+            opacity: 1;
+        }
     }
 
     @keyframes space {
@@ -34,10 +38,10 @@
     }
     a:hover,
     a:focus {
-        color: #fff;
-        position: relative;
+        opacity: 1;
         &.active {
             padding-left: 30px;
+            opacity: 1;
             &::before {
                 left: -30px;
                 position: absolute;
@@ -71,9 +75,27 @@
     ul li ul li ul {
         position: absolute;
         top: 0px;
-        left: 200px;
+        left: 500px;
         visibility: hidden;
         opacity: 0;
         transition: visibility 0.5s, opacity 1s;
+    }
+}
+
+@media (max-width: $tablet) {
+    #nav {
+        ul li ul {
+            position: fixed;
+            background: #2c70e0;
+            left: 10%;
+            padding: 20px;
+            padding-top: 40px;
+            overflow: scroll;
+        }
+        ul li ul li ul {
+            position: fixed;
+            background: $c-blue;
+            left: 20%;
+        }
     }
 }
