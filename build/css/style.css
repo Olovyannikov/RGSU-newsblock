@@ -989,8 +989,7 @@ img {
   z-index: 123;
 }
 
-#nav ul li:hover,
-#nav ul li:focus-within > ul {
+#nav ul li:hover > ul {
   visibility: visible;
   opacity: 1;
 }
