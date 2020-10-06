@@ -1,12 +1,4 @@
-import { default as menu } from './modules/_menu.js';
-import { default as video } from './modules/_video.js';
+import { default as menu } from './modules/menu.js';
+import { default as video } from './modules/video.js';
 menu();
 video();
-
-
-
-
-
-
-
-
