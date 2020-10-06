@@ -1,344 +1,79 @@
-$drk: #34495e;
-$grn: #16a085;
-$wht: #f5f5f5;
-
-%fix {
-    &:after {
-        clear: both;
-        content: "";
-        display: table;
-    }
-    &:before {
-        content: "";
-        display: table;
-    }
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    @extend %fix;
-}
-
-body {
-    font-family: "Raleway";
-    font-weight: 400;
-    color: $drk;
-    background: darken($wht, 2%);
-}
-
-header {
-    @extend %fix;
-    background: darken($drk, 4%);
-    padding: 0 7%;
-    @include transform-style(preserve-3d);
-    box-shadow: 0 2px 5px rgba(#444, 0.3);
-    @include perspective(1555px);
-}
-
-#main {
-    @extend %fix;
-    padding: 2.5em 7%;
-
-    .efx-info {
-        width: 49%;
-        float: left;
-        padding: 2em 1em;
-        font-weight: 700;
-        border-radius: 0.2em;
-
-        h1 {
-            line-height: 1;
-            display: inline-block;
-            padding: 0.1em 0.2em;
-            font-size: 5em;
-            margin: 0;
-            background: darken($wht, 7%);
-        }
-
-        p {
-            margin: 0;
-        }
-    }
-
-    #efx-name {
-        color: $grn;
-        font-weight: 900;
-        border-bottom: 4px solid $wht;
-    }
-
-    #efx-ease {
-        color: $drk;
-    }
-
-    .menu-chks {
-        position: relative;
-        line-height: 1;
-        font-size: 0.9em;
-        width: 45%;
-        float: right;
-
-        input {
-            margin-right: 0.5em;
-
-            &:checked + span {
-                color: $grn;
-
-                &:before {
-                    content: "\f046";
-                }
-            }
-        }
-
-        span {
-            @include transition(all 0.2s ease);
-        }
-
-        span:before {
-            font-family: "FontAwesome";
-            position: absolute;
-            left: 12px;
-            top: 10px;
-            color: lighten($drk, 4%);
-            content: "\f096";
-            font-size: 1.4em;
-        }
-
-        label {
-            color: darken($wht, 5%);
-            font-weight: 600;
-            display: inline-block;
-            position: relative;
-            margin: 0.25em;
-            background: darken($drk, 4%);
-            padding: 0.8em 1.2em 0.8em 2.5em;
-            border-radius: 0.4em;
-
-            &:hover {
-                cursor: pointer;
+#nav {
+    width: 500px;
+    ul {
+        @include list-reset;
+        display: flex;
+        flex-direction: column;
+        &:hover {
+            a:not(:focus) {
+                opacity: 0.5;
             }
         }
     }
-}
-
-nav {
-    li {
+    ul li {
         position: relative;
-        display: inline-block;
-        float: left;
+        margin-bottom: 20px;
     }
 
     a {
-        position: relative;
-        z-index: 599;
-        color: $wht;
-        background: darken($drk, 4%);
         text-decoration: none;
         display: block;
-        padding: 1.5em;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        @include transition(all 0.2s ease);
-
-        i[class*="caret"] {
-            color: lighten($drk, 4%);
-            margin-left: 0.15em;
-        }
-
-        &:hover {
-            color: $grn;
-        }
-
-        &:hover + .submenu {
-            opacity: 1;
-            @include transform(rotateX(0deg));
-            visibility: visible;
-        }
+        width: 100%;
+        line-height: 40px;
+        color: $c-light;
+        font-weight: bold;
     }
 
-    .eiob .submenu {
-        @include transition(all 0.3s $ease-in-out-back, opacity 0.2s linear);
-    }
-
-    .ln .submenu {
-        @include transition(all 0.3s linear);
-    }
-
-    .ei .submenu {
-        @include transition(all 0.3s ease-in, opacity 0.2s linear);
-    }
-
-    .eo .submenu {
-        @include transition(all 0.3s ease-out, opacity 0.2s linear);
-    }
-
-    .submenu {
-        display: block;
-        opacity: 0;
-        position: absolute;
-        visibility: hidden;
-        z-index: 499;
-        width: 14em;
-        top: 100%;
-        left: 0;
-        background: darken($drk, 4%);
-        box-shadow: 0 2px 5px rgba(#444, 0.3);
-        @include transform-origin(top center);
-        @include transform(rotateX(-90deg));
-        @include transition(all 0.25s ease);
-
-        li > .submenu {
-            top: 0;
-            left: 100%;
+    @keyframes space {
+        from {
+            left: -100px;
         }
-
-        &:hover {
-            opacity: 1;
-            @include transform(rotateX(0deg));
-            visibility: visible;
+        to {
+            left: -30px;
         }
-
-        li {
-            float: none;
-            display: block;
-        }
-        a {
-            width: 100%;
-            display: block;
-            font-weight: 300;
-            // border-bottom: 2px solid darken($grn,4%);
-            padding: 1.4em 2em;
-            &:hover {
-                color: $wht;
-                background: darken($grn, 2.5%);
+    }
+    a:hover,
+    a:focus {
+        color: #fff;
+        position: relative;
+        &.active {
+            padding-left: 30px;
+            &::before {
+                left: -30px;
+                position: absolute;
+                content: "— ";
+                animation: space 0.5s ease-in-out;
+                padding-left: 30px;
             }
         }
     }
-}
-
-nav.rx {
-    li {
-        &:hover + .submenu {
-            opacity: 1;
-            @include transform(rotateY(0deg));
-        }
+    ul li ul {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left: 500px;
+        top: 0;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.5s, opacity 1s;
+        z-index: 123;
     }
-
-    .submenu {
-        @include transform(rotateY(-90deg));
-
-        &:hover {
-            @include transform(rotateY(0deg));
-        }
+    ul li:hover,
+    ul li:focus-within > ul {
+        visibility: visible;
+        opacity: 1;
     }
-}
-
-/*=== Fade Dwn ===*/
-nav.fd {
-    li {
-        &:hover + .submenu {
-            opacity: 1;
-            @include transform(translateY(0px));
-        }
+    ul li ul li {
+        margin-top: 2px;
+        margin-bottom: 0;
+        font-size: 0.8em;
     }
-
-    .submenu {
-        @include transform-origin(center center);
-        @include transform(translateY(-50px));
-
-        &:hover {
-            @include transform(translateY(0px));
-        }
-    }
-}
-
-nav.fu {
-    li {
-        &:hover + .submenu {
-            opacity: 1;
-            @include transform(translateY(0px));
-        }
-    }
-
-    .submenu {
-        @include transform-origin(center center);
-        @include transform(translateY(20px));
-
-        &:hover {
-            @include transform(translateY(0px));
-        }
-    }
-}
-
-/*=== Scale ===*/
-nav.sc {
-    li {
-        &:hover + .submenu {
-            opacity: 1;
-            @include transform(rotateY(0deg) scale(1));
-        }
-    }
-
-    .submenu {
-        @include transform-origin(center top);
-        @include transform(scale(0));
-
-        &:hover {
-            @include transform(rotateY(0deg) scale(1));
-        }
-    }
-}
-
-/*==== Rotate ====*/
-nav.rt {
-    li {
-        &:hover + .submenu {
-            @include transform(rotate(0deg));
-        }
-    }
-    .submenu {
-        @include transform-origin(center center);
-        @include transform(rotate(180deg));
-
-        &:hover {
-            @include transform(rotate(0deg));
-            @include transform(scale(1));
-        }
-    }
-}
-
-/*==== Move/Skew In ====*/
-nav.mv {
-    li {
-        &:hover + .submenu {
-            @include transform(translateX(0px) skewX(0deg));
-        }
-    }
-    .submenu {
-        @include transform-origin(center center);
-        @include transform(translateX(-40px) skewX(-7deg));
-
-        &:hover {
-            @include transform(skewX(0deg));
-        }
-    }
-}
-
-/*==== Door ====*/
-nav.dc {
-    li {
-        &:hover + .submenu {
-            @include transform(rotateY(0deg));
-        }
-    }
-    .submenu {
-        @include transform-origin(left top);
-        @include transform(rotateY(-90deg));
-
-        &:hover {
-            @include transform(rotateY(0deg));
-        }
+    ul li ul li ul {
+        position: absolute;
+        top: 0px;
+        left: 200px;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.5s, opacity 1s;
     }
 }

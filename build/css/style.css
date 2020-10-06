@@ -379,7 +379,6 @@ img {
   content: "—";
   position: absolute;
   top: 0;
-  left: 0;
   -webkit-animation: space 0.5s;
           animation: space 0.5s;
 }
@@ -875,6 +874,109 @@ img {
   border-style: double;
   border-width: 0px 0px 0px 40px;
   border-color: #ffffff;
+}
+
+#nav {
+  width: 500px;
+}
+
+#nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+#nav ul:hover a:not(:focus) {
+  opacity: 0.5;
+}
+
+#nav ul li {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+#nav a {
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  line-height: 40px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+@keyframes space {
+  from {
+    left: -100px;
+  }
+
+  to {
+    left: -30px;
+  }
+}
+
+#nav a:hover,
+#nav a:focus {
+  color: #fff;
+  position: relative;
+}
+
+#nav a:hover.active,
+#nav a:focus.active {
+  padding-left: 30px;
+}
+
+#nav a:hover.active::before,
+#nav a:focus.active::before {
+  left: -30px;
+  position: absolute;
+  content: "— ";
+  -webkit-animation: space 0.5s ease-in-out;
+          animation: space 0.5s ease-in-out;
+  padding-left: 30px;
+}
+
+#nav ul li ul {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 500px;
+  top: 0;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0.5s, opacity 1s;
+  -o-transition: visibility 0.5s, opacity 1s;
+  transition: visibility 0.5s, opacity 1s;
+  z-index: 123;
+}
+
+#nav ul li:hover,
+#nav ul li:focus-within > ul {
+  visibility: visible;
+  opacity: 1;
+}
+
+#nav ul li ul li {
+  margin-top: 2px;
+  margin-bottom: 0;
+  font-size: 0.8em;
+}
+
+#nav ul li ul li ul {
+  position: absolute;
+  top: 0px;
+  left: 200px;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0.5s, opacity 1s;
+  -o-transition: visibility 0.5s, opacity 1s;
+  transition: visibility 0.5s, opacity 1s;
 }
 
 @media (min-width: 40em) {
