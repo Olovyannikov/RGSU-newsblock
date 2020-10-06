@@ -62,8 +62,7 @@
         transition: visibility 0.5s, opacity 1s;
         z-index: 123;
     }
-    ul li:hover,
-    ul li:focus-within > ul {
+    ul li:hover > ul {
         visibility: visible;
         opacity: 1;
     }
