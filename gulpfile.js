@@ -14,7 +14,7 @@ let path = {
 		pug: [source_folder + '/pug/pages/*.pug', "!" + source_folder + '/**/_*.pug'],
 		css: source_folder + '/scss/style.scss',
 		js: source_folder + '/js/script.js',
-		img: source_folder + '/img/**/*.{png,jpeg,jpg,svg,gif,ico,webp}',
+		img: source_folder + '/img/**/*.{png,jpeg,jpg,gif,ico,webp}',
 		fonts: source_folder + '/fonts/*.{woff,woff2,ttf,svg}',
 	},
 	watch: {
@@ -42,9 +42,11 @@ let { src, dest } = require('gulp'),
 	imagemin = require('gulp-imagemin'),
 	webp = require('gulp-webp'),
 	webphtml = require('gulp-webp-html'),
+	// webpcss = require('gulp-webp-css'),
 	svgSprite = require('gulp-svg-sprite'),
 	ttf2woff = require('gulp-ttf2woff'),
 	ttf2woff2 = require('gulp-ttf2woff2'),
+	pug = require('gulp-pug'),
 	plumber = require('gulp-plumber'),
 	notify = require('gulp-notify');
 
@@ -58,9 +60,21 @@ function browserSync() {
 	})
 }
 
-function html() {
-	return src(path.src.html)
-		.pipe(fileinclude({ prefix: '@@' }))
+function pug2html() {
+	return src(path.src.pug)
+		.pipe(plumber({
+			errorHandler: notify.onError(function (err) {
+				return {
+					title: 'Pug',
+					sound: false,
+					message: err.message
+				}
+			})
+		}))
+		.pipe(pug({
+			pretty: true
+		}))
+		.pipe(webphtml())
 		.pipe(dest(path.build.html))
 		.pipe(browsersync.stream())
 }
@@ -112,7 +126,6 @@ function js() {
 
 function js_copy() {
 	return src(path.watch.js)
-		.pipe(fileinclude({ prefix: '@@' }))
 		.pipe(dest(path.build.js))
 		.pipe(browsersync.stream())
 }
@@ -152,7 +165,7 @@ function svgsprite() {
 		.pipe(svgSprite({
 			mode: {
 				stack: {
-					sprite: "../img/icons/icons.svg",
+					sprite: "../icons/icons.svg",
 				}
 			},
 		}))
@@ -160,7 +173,7 @@ function svgsprite() {
 }
 
 function watchFiles(params) {
-	gulp.watch([path.watch.html], html);
+	gulp.watch([path.watch.pug], pug2html);
 	gulp.watch([path.watch.css], css);
 	gulp.watch([path.watch.js], js);
 	gulp.watch([path.watch.img], images);
@@ -170,10 +183,10 @@ function clean(params) {
 	return del(path.clean);
 }
 
-let build = gulp.series(clean, gulp.parallel(images, js, js_copy, css, html, svgsprite, fonts));
+let build = gulp.series(clean, gulp.parallel(svgsprite, images, js, js_copy, css, pug2html, fonts));
 let watch = gulp.parallel(build, watchFiles, browserSync);
 
-exports.html = html;
+exports.pug2html = pug2html;
 exports.fonts = fonts;
 exports.svgsprite = svgsprite;
 exports.images = images;
