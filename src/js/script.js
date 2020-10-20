@@ -1,58 +1,57 @@
 import { default as menu } from './modules/menu.js';
-import { default as video } from './modules/video.js';
+//import { default as video } from './modules/video.js';
 menu();
-video();
 
-function findVideos() {
-    let videos = document.querySelectorAll('.video');
+var accordion = (function (element) {
+    var _getItem = function (elements, className) { // функция для получения элемента с указанным классом
+        var element = undefined;
+        elements.forEach(function (item) {
+            if (item.classList.contains(className)) {
+                element = item;
+            }
+        });
+        return element;
+    };
+    return function () {
+        var _mainElement = {}, // .accordion
+            _items = {}, // .accordion-item
+            _contents = {}; // .accordion-item-content 
+        var _actionClick = function (e) {
+            if (!e.target.classList.contains('accordion-item-header')) { // прекращаем выполнение функции если кликнули не по заголовку
+                return;
+            }
+            e.preventDefault(); // отменям стандартное действие
+            // получаем необходимые данные
+            var header = e.target,
+                item = header.parentElement,
+                itemActive = _getItem(_items, 'show');
+            if (itemActive === undefined) { // добавляем класс show к элементу (в зависимости от выбранного заголовка)
+                item.classList.add('show');
+            } else {
+                // удаляем класс show у ткущего элемента
+                itemActive.classList.remove('show');
+                // если следующая вкладка не равна активной
+                if (itemActive !== item) {
+                    // добавляем класс show к элементу (в зависимости от выбранного заголовка)
+                    item.classList.add('show');
+                }
+            }
+        },
+            _setupListeners = function () {
+                // добавим к элементу аккордиона обработчик события click
+                _mainElement.addEventListener('click', _actionClick);
+            };
 
-    for (let i = 0; i < videos.length; i++) {
-        setupVideo(videos[i]);
+        return {
+            init: function (element) {
+                _mainElement = (typeof element === 'string' ? document.querySelector(element) : element);
+                _items = _mainElement.querySelectorAll('.menu-item');
+                _setupListeners();
+            }
+        }
     }
-}
+})();
 
-function setupVideo(video) {
-    let link = video.querySelector('.video__link');
-    let media = video.querySelector('.video__media');
-    let button = video.querySelector('.video__button');
-    let id = parseMediaURL(media);
 
-    video.addEventListener('click', () => {
-        let iframe = createIframe(id);
-
-        link.remove();
-        button.remove();
-        video.appendChild(iframe);
-    });
-
-    link.removeAttribute('href');
-    video.classList.add('video--enabled');
-}
-
-function parseMediaURL(media) {
-    let regexp = /https:\/\/i\.ytimg\.com\/vi\/([a-zA-Z0-9_-]+)\/maxresdefault\.jpg/i;
-    let url = media.src;
-    let match = url.match(regexp);
-
-    return match[1];
-}
-
-function createIframe(id) {
-    let iframe = document.createElement('iframe');
-
-    iframe.setAttribute('allowfullscreen', '');
-    iframe.setAttribute('allow', 'autoplay');
-    iframe.setAttribute('src', generateURL(id));
-    iframe.classList.add('video__media');
-
-    return iframe;
-}
-
-function generateURL(id) {
-    let query = '?rel=0&showinfo=0&autoplay=1';
-
-    return 'https://www.youtube.com/embed/' + id + query;
-}
-
-findVideos();
-
+var accordion1 = accordion();
+accordion1.init('#nav');

@@ -1,5 +1,5 @@
 #nav {
-    width: 500px;
+    padding: 50px;
     ul {
         @include list-reset;
         display: flex;
@@ -45,7 +45,7 @@
             &::before {
                 left: -30px;
                 position: absolute;
-                content: "— ";
+                content: "— ";
                 animation: space 0.5s ease-in-out;
                 padding-left: 30px;
             }
